@@ -24,7 +24,7 @@
 </script>
 
 <script>
-	var loginMemberPermissionLevel = ${loginedMember.PermissionLevel > 0 ? loginedMember.PermissionLevel :0};
+	var loginMemberPermissionLevel = ${loginedMember.PermissionLevel > 0 ? loginedMember.PermissionLevel : 0};
 </script>
 
 <style>
@@ -41,6 +41,10 @@
 
 .editable .editable-item {
 	display: block;
+}
+
+.editable a.editable-item,.deletable a.deletable-item  {
+	display: inline-block;
 }
 
 .article-replies-list tr .edit-mode-visible {
