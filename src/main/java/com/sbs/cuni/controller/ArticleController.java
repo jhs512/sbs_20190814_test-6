@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sbs.cuni.dto.Article;
 import com.sbs.cuni.dto.ArticleReply;
 import com.sbs.cuni.dto.Board;
+import com.sbs.cuni.dto.Member;
 import com.sbs.cuni.service.ArticleService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -80,22 +81,33 @@ public class ArticleController {
 	}
 
 	@RequestMapping("/article/add")
-	public String showAdd(long boardId, Model model) {
+	public String showAdd(long boardId, Model model, HttpServletRequest request) {
 		Board board = articleService.getBoard(boardId);
 
 		model.addAttribute("board", board);
+		
+		Member loginedMember = (Member)request.getAttribute("loginedMember");
+
+		if ( boardId == 1 && loginedMember.getPermissionLevel() != 1 ) {
+			model.addAttribute("alertMsg", "권한이 없습니다.");
+			model.addAttribute("historyBack", true);
+			
+			return "common/redirect";			
+		}
 
 		return "article/add";
 	}
 
 	@RequestMapping("/article/doAdd")
-	public String doAdd(Model model, @RequestParam Map<String, Object> param, HttpSession session, long boardId) {
+	public String doAdd(Model model, @RequestParam Map<String, Object> param, HttpSession session, long boardId, HttpServletRequest request) {
 		param.put("memberId", session.getAttribute("loginedMemberId"));
 		long newId = articleService.add(param);
 
-		String msg = newId + "번 게시물이 추가되었습니다.";
-		String redirectUrl = "/article/detail?id=" + newId + "&boardId=" + boardId;
-
+		String msg = "";
+		String redirectUrl = "";
+		
+		msg = newId + "번 게시물이 추가되었습니다.";
+		redirectUrl = "/article/detail?id=" + newId + "&boardId=" + boardId;
 		model.addAttribute("alertMsg", msg);
 		model.addAttribute("redirectUrl", redirectUrl);
 
