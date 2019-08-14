@@ -23,7 +23,18 @@
 	}
 </script>
 
+<script>
+	var loginMemberPermissionLevel = ${loginedMember.PermissionLevel > 0 ? loginedMember.PermissionLevel :0};
+</script>
+
 <style>
+.deletable-item {
+	display: none;
+}
+
+.deletable .deletable-item {
+	display: block;
+}
 .editable-item {
 	display: none;
 }
