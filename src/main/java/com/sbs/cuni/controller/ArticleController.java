@@ -167,23 +167,42 @@ public class ArticleController {
 	}
 
 	@RequestMapping("/article/doDelete")
-	public String doDelete(Model model, @RequestParam Map<String, Object> param, HttpSession session, long id, long boardId) {
+	public String doDelete(Model model, @RequestParam Map<String, Object> param, HttpServletRequest request, long id, long boardId) {
 		param.put("id", id);
+
+		// 관리자인지 체크
+		// 작성자인지 체크
+
+		boolean hasAPermmision = true;
+
+		Member loginedMember = (Member)request.getAttribute("loginedMember");
+
+		Article article = articleService.getOne(Maps.of("id", id));
+		boolean isWriter = article.getMemberId() == loginedMember.getId();
+
+		if ( loginedMember.getPermissionLevel() == 0 && isWriter == false ) {
+			hasAPermmision = false;
+		}
+
+		if ( hasAPermmision == false ) {
+			model.addAttribute("historyBack", true);
+			model.addAttribute("alertMsg", "권한이 없습니다.");
+
+			return "common/redirect";
+		}
+
 
 		Map<String, Object> deleteRs = articleService.delete(param);
 
 		String msg = (String) deleteRs.get("msg");
 		String resultCode = (String) deleteRs.get("resultCode");
-
 		if (resultCode.startsWith("S-")) {
 			String redirectUrl = "/article/list?boardId=" + boardId;
 			model.addAttribute("redirectUrl", redirectUrl);
 		} else {
 			model.addAttribute("historyBack", true);
 		}
-
 		model.addAttribute("alertMsg", msg);
-
 		return "common/redirect";
 	}
 
