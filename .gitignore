@@ -1,8 +1,7 @@
 .classpath
 .factorypath
 .project
-.settings/
-target/
-db.sql
-의존성.txt
-프로젝트 생성 옵션.txt
+.settings
+target
+의존성.txt/
+프로젝트 생성 옵션.txt/
