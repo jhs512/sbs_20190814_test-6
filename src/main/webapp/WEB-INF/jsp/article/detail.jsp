@@ -11,7 +11,7 @@
 
 
 <script>
-	var loginMemberPermissionLevel = ${loginedMember.PermissionLevel > 0 ? loginedMember.PermissionLevel : 0};
+	var loginMemberPermissionLevel = ${loginedMember.permissionLevel > 0 ? loginedMember.permissionLevel : 0};
 </script>
 
 <script>
