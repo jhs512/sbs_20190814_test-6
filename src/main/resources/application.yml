@@ -28,7 +28,7 @@ spring:
     port: 587
     username: 
     password: 
-    properties:
+    properties: 
       mail:
         smtp:
           auth: true
