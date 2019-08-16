@@ -9,6 +9,11 @@
 	var articleId = parseInt('${param.id}');
 </script>
 
+
+<script>
+	var loginMemberPermissionLevel = ${loginedMember.PermissionLevel > 0 ? loginedMember.PermissionLevel : 0};
+</script>
+
 <script>
 	function enableEditMode(el) {
 		var $el = $(el);
@@ -23,9 +28,6 @@
 	}
 </script>
 
-<script>
-	var loginMemberPermissionLevel = ${loginedMember.PermissionLevel > 0 ? loginedMember.PermissionLevel : 0};
-</script>
 
 <style>
 .deletable-item {
